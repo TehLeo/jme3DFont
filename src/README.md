@@ -19,7 +19,7 @@ guiNode.attachChild(txt);
 ```
 
 Alternatively, check:
-[I'm a relative reference to a repository file](src/jme3test/gui/TestDFont.java)
+[TestDFont.java](src/jme3test/gui/TestDFont.java)
 
 
 ## Creating new fonts:
