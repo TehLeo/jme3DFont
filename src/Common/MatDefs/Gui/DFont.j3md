@@ -1,0 +1,31 @@
+MaterialDef DFont {
+    MaterialParameters {
+		Color Color (Color)
+        Texture2D ColorMap (ColorMap)
+		Float AlphaDiscardThreshold (AlphaTestFallOff)
+        Boolean VertexColor (UseVertexColor)
+		Boolean UseInstancing
+		Vector4 TextOutline (TextOutline)
+		Float Middle
+		Float DScale
+    }
+    Technique {
+        VertexShader GLSL100: Common/MatDefs/Gui/DFont.vert
+        FragmentShader GLSL100: Common/MatDefs/Gui/DFont.frag
+
+        WorldParameters {
+            WorldViewProjectionMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+        }
+
+        Defines {
+            INSTANCING : UseInstancing
+            HAS_COLORMAP : ColorMap
+            HAS_VERTEXCOLOR : VertexColor
+            HAS_COLOR : Color
+            DISCARD_ALPHA : AlphaDiscardThreshold
+			TEXT_OUTLINE : TextOutline
+        }
+    }
+}
