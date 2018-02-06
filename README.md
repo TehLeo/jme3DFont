@@ -33,3 +33,10 @@ You can check:
 Where you can download:
 
 (https://github.com/libgdx/libgdx/wiki/Hiero)
+
+The first line of a fnt file looks like this:
+```
+info face="FreeSans Bold" size=32 bold=1 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=4,4,4,4 spacing=1,1 spread=4
+```
+For correct rendering add " spread=x" where x is the spread value you used when you generated your font.
+It this is not present default value of 4 will be used along with a warning message.
