@@ -14,7 +14,7 @@ txt.setOutline(new Vector4f(0,0,0,0.25f)); //Sets an black rgb(0,0,0) outline, t
 //		txt.setOutline(null); //This would remove outline
 txt.setSize(32); //Font size
 txt.setMiddle(0.4f); //optionally vary thickness, default is 0.5
-txt.setText(txtB);
+txt.setText("Some String");
 txt.setLocalTranslation(0, txt.getHeight(), 0);
 guiNode.attachChild(txt);
 
