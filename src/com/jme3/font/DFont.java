@@ -29,37 +29,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.font.plugins;
-
-import com.jme3.asset.AssetKey;
-import com.jme3.font.DFont;
-import com.jme3.math.Vector4f;
-import com.jme3.texture.Texture;
+package com.jme3.font;
 
 /**
  *
  * @author Juraj Papp
  */
-public class DFontKey extends AssetKey<DFont> {
-	public Texture.MinFilter minFilter = Texture.MinFilter.BilinearNearestMipMap;
-	public Texture.MagFilter magFilter = Texture.MagFilter.Bilinear;
-	public float spread = 4f;
-	public float dscale = 1/16f;
-	public float middle = 0.5f;
-	public Vector4f outline = null;
-	public DFontKey() {}
-	public DFontKey(String name) {
-		super(name);
-	}
-	/**
-	 * rgb. outline color
-	 * w. outline thickness range [0.0-1.0]
-	 * @param name - asset path
-	 * @param outline 
-	 */
-	public DFontKey(String name, Vector4f outline) {
-		super(name);
-		this.outline = new Vector4f(outline);
-		this.outline.w *= 0.5;
+public class DFont extends BitmapFont {
+	protected float spread = 4f;
+	
+	@Override
+	public BitmapText createLabel(String content){
+        DText label = new DText(this);
+        label.setSize(getCharSet().getRenderedSize());
+        label.setText(content);
+        return label;
+    }
+
+	public void setSpread(float spread) {
+		this.spread = spread;
 	}	
+	public float getSpread() {
+		return spread;
+	}
 }

@@ -85,6 +85,7 @@ public class DText extends BitmapText {
 			textPages[i].setMaterial(mats[i]);
 		}		
 		setSize(getSize());
+		if(font instanceof DFont) Spread = ((DFont)font).spread;
 	}
 	
 	/**
@@ -113,8 +114,9 @@ public class DText extends BitmapText {
 	@Override
 	public void setSize(float size) {
 		super.setSize(size);
+		float DScale = computeDScale();
 		for (int i = 0; i < textPages.length; i++) 
-			mats[i].setFloat("DScale", computeDScale());		
+			mats[i].setFloat("DScale", DScale);		
 	}
 
 	

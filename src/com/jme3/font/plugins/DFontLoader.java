@@ -30,13 +30,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.jme3.font.plugins;
-//package com.jme3.font.plugins;
 
 import com.jme3.asset.*;
 import com.jme3.font.BitmapCharacter;
 import com.jme3.font.BitmapCharacterSet;
 import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
+import com.jme3.font.DFont;
 import com.jme3.material.Material;
 import com.jme3.material.MaterialDef;
 import com.jme3.material.RenderState.BlendMode;
@@ -46,15 +45,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DFontLoader implements AssetLoader {
+    private static final Logger logger = Logger.getLogger(DFontLoader.class.getName());
 
-    private BitmapFont load(AssetManager assetManager, String folder, InputStream in, AssetKey k) throws IOException{
+    private DFont load(AssetManager assetManager, String folder, InputStream in, AssetKey k) throws IOException{
 		MaterialDef spriteMat = 
                 (MaterialDef) assetManager.loadAsset(new AssetKey("Common/MatDefs/Gui/DFont.j3md"));
 		Vector4f outline = null;
 		float dscale = 1/16f;
 		float middle = 0.5f;
+		float spread = 4f;
 		Texture.MinFilter minFilter = Texture.MinFilter.BilinearNearestMipMap;
 		Texture.MagFilter magFilter = Texture.MagFilter.Bilinear;
 		if(k instanceof DFontKey) {
@@ -64,11 +67,12 @@ public class DFontLoader implements AssetLoader {
 			minFilter = kk.minFilter;
 			magFilter = kk.magFilter;
 			middle = kk.middle;
+			spread = kk.spread;
 		}
 		
 		BitmapCharacterSet charSet = new BitmapCharacterSet();
 		Material[] matPages = null;
-		BitmapFont font = new BitmapFont();
+		DFont font = new DFont();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String regex = "[\\s=]+";      
         font.setCharSet(charSet);
@@ -80,6 +84,7 @@ public class DFontLoader implements AssetLoader {
             String[] tokens = line.split(regex);
             if (tokens[0].equals("info")){
                 // Get rendered size
+				float inputSpread = Float.NaN;
                 for (int i = 1; i < tokens.length; i++){
                     if (tokens[i].equals("size")){
                         charSet.setRenderedSize(Integer.parseInt(tokens[i + 1]));
@@ -91,7 +96,13 @@ public class DFontLoader implements AssetLoader {
 						pDown = Integer.parseInt(padding[2]);
 						pLeft = Integer.parseInt(padding[3]);
 					}
+					else if(tokens[i].equals("spread")) {
+						inputSpread = Float.parseFloat(tokens[i + 1]);
+					}
                 }
+				if(inputSpread == inputSpread) spread = inputSpread;
+				else logger.log(Level.WARNING, "DFontLoader: \"spread\" not specified in {0}. Using {1} as default." , new Object[]{k.getName(), spread});
+				
             }else if (tokens[0].equals("common")){
                 // Fill out BitmapCharacterSet fields
                 for (int i = 1; i < tokens.length; i++){
@@ -188,6 +199,7 @@ public class DFontLoader implements AssetLoader {
                 ch.addKerning(second, amount);
             }
         }
+		font.setSpread(spread);
         return font;
     }
     
