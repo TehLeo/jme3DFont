@@ -108,7 +108,7 @@ public class DFontLoader implements AssetLoader {
                 for (int i = 1; i < tokens.length; i++){
                     String token = tokens[i];
                     if (token.equals("lineHeight")){
-                        charSet.setLineHeight(Integer.parseInt(tokens[i + 1]));
+                        charSet.setLineHeight(Integer.parseInt(tokens[i + 1]) - pUp-pDown);
                     }else if (token.equals("base")){
                         charSet.setBase(Integer.parseInt(tokens[i + 1]));
                     }else if (token.equals("scaleW")){

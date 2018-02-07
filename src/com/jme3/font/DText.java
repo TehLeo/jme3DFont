@@ -103,6 +103,7 @@ public class DText extends BitmapText {
 	}
 	
 	/**
+	 * Changes thickness of letters.
 	 * @param middle [0-1] 0.5 default
 	 */
 	public void setMiddle(float middle) {
@@ -111,6 +112,10 @@ public class DText extends BitmapText {
 			mats[i].setFloat("Middle", middle);
 	}
 	
+	/**
+     * Changes text size
+     * @param size text size
+     */
 	@Override
 	public void setSize(float size) {
 		super.setSize(size);
